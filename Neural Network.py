@@ -86,6 +86,7 @@ print("w2: \n", w2, "\n")
 print("B2: \n", b2, "\n")
 
 for j in range(len(InputData)):
+    plt.grid()
     print(InputData[j])
     ze1 = np.dot(w1, InputData[j].reshape(2, 1)) + b1
     ae1 = sigmoid(ze1)
@@ -93,11 +94,28 @@ for j in range(len(InputData)):
     ze2 = np.dot(w2, ae1) + b2
     ae2 = sigmoid(ze2)
 
-    c = float(np.square(ae2 - TargetData[j]))
+    cost = float(np.square(ae2 - TargetData[j]))
     print("Prediction: ", ae2)
-    print("Cost: ", c)
+    print("Cost: ", cost)
+    c = 'r'
+    if TargetData[j] == 0:
+        c = 'b'
+    plt.scatter(InputData[j][0], InputData[j][1], c=c)
 
-plt.plot(costlist)
+
+for x in np.linspace(-0.25, 1.2, 20):
+    for y in np.linspace(-0.25, 1.2, 20):
+        x1 = np.array([[x], [y]])
+        ze1 = np.dot(w1, x1) + b1
+        ae1 = sigmoid(ze1)
+
+        ze2 = np.dot(w2, ae1) + b2
+        ae2 = sigmoid(ze2)
+        c = 'b'
+        if ae2 > 0.5:
+            c = 'r'
+        plt.scatter(x, y, c=c, alpha=0.2)
 plt.show()
 
-
+cos = plt.plot(costlist)
+plt.show(cos)
